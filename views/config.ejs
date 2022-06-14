@@ -1,0 +1,61 @@
+﻿"width": "100%",
+"height": "100%",
+"type": "<%- editor.type %>",
+"documentType": "<%- editor.documentType %>",
+"token": "<%- editor.token %>",
+"document": {
+    "title": "<%- file.name %>",
+    "url": "<%- file.uri %>",
+    "fileType": "<%- file.ext %>",
+    "key": "<%- editor.key %>",
+    "info": {
+        "owner": "Me",
+        "uploaded": "<%- file.created %>",
+        "favorite": <%- file.favorite %>
+    },
+    "permissions": {
+        "comment": <%- editor.comment %>,
+        "copy": <%- editor.copy %>,
+        "download": <%- editor.download %>,
+        "edit": <%- editor.isEdit %>,
+        "print": <%- editor.print %>,
+        "fillForms": <%- editor.fillForms %>,
+        "modifyFilter": <%- editor.modifyFilter %>,
+        "modifyContentControl": <%- editor.modifyContentControl %>,
+        "review": <%- editor.review %>,
+        "reviewGroups": <%- editor.reviewGroups %>,
+        "commentGroups": <%- editor.commentGroups %>,
+        "userInfoGroups": <%- editor.userInfoGroups %>
+    }
+},
+"editorConfig": {
+    "actionLink": <%- editor.actionData %>,
+    "mode": "<%- editor.mode %>",
+    "lang": "<%- editor.lang %>",
+    "callbackUrl": "<%- editor.callbackUrl %>",
+    "createUrl": <%- JSON.stringify(editor.createUrl) %>,
+    "templates": <%- JSON.stringify(editor.templates) %>,
+    "user": {
+        "group": "<%- editor.userGroup %>",
+        "id": "<%- editor.userid %>",
+        "name": "<%- editor.name %>"
+    },
+    "embedded": {
+        "saveUrl": "<%- file.uriUser %>",
+        "embedUrl": "<%- file.uriUser %>",
+        "shareUrl": "<%- file.uriUser %>",
+        "toolbarDocked": "top"
+    },
+    "customization": {
+        "about": true,
+        "comments": true,
+        "feedback": true,
+        "forcesave": false,
+        "goback": {
+            "url": "<%- editor.backUrl %>"
+        },
+        "submitForm": <%- editor.submitForm %>
+    },
+    "fileChoiceUrl": "<%- editor.fileChoiceUrl %>",
+    "plugins": <%- editor.plugins %>
+}
