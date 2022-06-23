@@ -97,7 +97,7 @@ app.use(bodyParser.json());  // connect middleware that parses json
 app.use(bodyParser.urlencoded({ extended: false }));  // connect middleware that parses urlencoded bodies
 
 
-app.get("/", function (req, res) {  // define a handler for default page
+/* app.get("/", function (req, res) {  // define a handler for default page
     try {
 
         req.docManager = new docManager(req, res);
@@ -121,7 +121,7 @@ app.get("/", function (req, res) {  // define a handler for default page
         res.render("error", { message: "Server error" });  // render error template with the message parameter specified
         return;
     }
-});
+}); */
 
 app.get("/download", function(req, res) {  // define a handler for downloading files
     req.docManager = new docManager(req, res);
@@ -521,8 +521,8 @@ app.post("/track", function (req, res) {  // define a handler for tracking file 
         var callbackProcessSave = async (downloadUri, body, fileName, userAddress, newFileName,carpeta) =>{
             try {
                  //aqui se hace la peticion para actualizar el key cuando se guarda el archivo y su version
-               
-                                
+
+
                 var storagePath = req.docManager.storagePath(newFileName, userAddress,carpeta);//files/conexion/archivo
                 console.log(storagePath)
                 var historyPath = req.docManager.historyPath(newFileName, userAddress,false,carpeta);  // get the path to the history data
@@ -559,23 +559,23 @@ app.post("/track", function (req, res) {  // define a handler for tracking file 
 
                 urllib.request(downloadUri, {method: "GET"},async (err, data)=> {
                     fileSystem.writeFileSync(storagePath, data);
-                    
+
                     console.log("entra al guardado de copia")
                     const newEtapa= await documentService.infoNewEtapa( 					req.query.origin,req.query.conexion,req.query.codarchivo);  // hacemos la solicutud al back de .net para verificar si ya se puede crear la sigueinte etapa si es que existe
-                 
+
             if (newEtapa ) {
             console.log(newEtapa)
             var storagePathNew = req.docManager.storagePath(newEtapa.fileNameNew, userAddress,carpeta);
             console.log(storagePath)
             console.log(storagePathNew)
-            
+
             var ruta = path.join(userAddress,carpeta);
             console.log(ruta)
                 fileSystem.copyFile(storagePath,storagePathNew, async (err)=>{
     if(!err){
      req.docManager.saveFileData(newEtapa.fileNameNew, "001","colegio",ruta);
      const patharmado=path.join(storageFolder,ruta,newEtapa.fileNameNew)
- 
+
      var bodyrequest={
      codseccion:newEtapa.codseccion,
      codversionetapa:newEtapa.codversionetapa,
@@ -588,30 +588,30 @@ app.post("/track", function (req, res) {  // define a handler for tracking file 
      codpathcarpeta:newEtapa.codpathcarpeta,
      }
      console.log(bodyrequest)
-     const crearEtapa =await documentService.createNewEtapa( 					req.query.origin,req.query.conexion,bodyrequest); 
+     const crearEtapa =await documentService.createNewEtapa( 					req.query.origin,req.query.conexion,bodyrequest);
     }
 });
-                
+
             }else{
             console.log("entra al error del apicloud")
                 //response.write("{\"error\":1}");
                 //response.end();
                 return;
             }
-            
-            
+
+
                     //aqui es donde creo una copia para la nueva etapa siguiente
                 });
 
                 var forcesavePath = req.docManager.forcesavePath(newFileName, userAddress, false,carpeta);  // get the path to the forcesaved file
                 if (forcesavePath != "") {  // if this path is empty
                     fileSystem.unlinkSync(forcesavePath);  // remove it
-                    
-                }
-               
 
- 
-                
+                }
+
+
+
+
 
             } catch (ex) {
                 response.write("{\"error\":1}");
@@ -760,8 +760,8 @@ console.log(newFileName)
         };
 
         if (body.status == 1) { // editing
-        
-        
+
+
         console.log(body)
             if (body.actions && body.actions[0].type == 0) { // finished edit
                 var user = body.actions[0].userid;
@@ -773,10 +773,10 @@ console.log(newFileName)
                         console.log(ex);
                     }
                 }
-                         
+
             }
         } else if (body.status == 2 || body.status == 3) { // MustSave, Corrupted
-        
+
                       //processSave(body.url, body, fileName, userAddress,carpeta);  // save file
                       //documentService.updateKey(body.key,dominio,userAddress);  // update key
                       //return;
@@ -792,8 +792,8 @@ console.log(newFileName)
                 response.end();
                 return;
             }
-                 
-        
+
+
         } else if (body.status == 6 || body.status == 7) { // MustForceSave, CorruptedForceSave
         console.log(body.status)
         //var newbody ={...body,key:documentService.generateNewKey(body.key)};
@@ -802,20 +802,20 @@ console.log(newFileName)
         }else if (body.status==4){//aqui se abre el estado 4
         console.log(body)
          const newEtapa= await documentService.infoNewEtapa( 					req.query.origin,req.query.conexion,req.query.codarchivo);  // hacemos la solicutud al back de .net para verificar si ya se puede crear la sigueinte etapa si es que existe
-                   
+
             if (newEtapa ) {
             console.log(newEtapa)
             var storagePathNew = req.docManager.storagePath(newEtapa.fileNameNew, userAddress,carpeta);
             console.log(storagePath)
             console.log(storagePathNew)
-            
+
             var ruta = path.join(userAddress,carpeta);
             console.log(ruta)
                 fileSystem.copyFile(storagePath,storagePathNew, async (err)=>{
     if(!err){
      req.docManager.saveFileData(newEtapa.fileNameNew, "001","colegio",ruta);
      const patharmado=path.join(storageFolder,ruta,newEtapa.fileNameNew)
- 
+
      var bodyrequest={
      codseccion:newEtapa.codseccion,
      codversionetapa:newEtapa.codversionetapa,
@@ -828,10 +828,10 @@ console.log(newFileName)
      codpathcarpeta:newEtapa.codpathcarpeta,
      }
      console.log(bodyrequest)
-     const crearEtapa =await documentService.createNewEtapa( 					req.query.origin,req.query.conexion,bodyrequest); 
+     const crearEtapa =await documentService.createNewEtapa( 					req.query.origin,req.query.conexion,bodyrequest);
     }
 });
-                
+
             }else{
             console.log("entra al error del apicloud")
                 //response.write("{\"error\":1}");
